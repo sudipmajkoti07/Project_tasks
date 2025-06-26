@@ -1,0 +1,16 @@
+fastapi==0.115.13
+uvicorn==0.34.3
+langchain==0.3.26
+langchain-community==0.3.26
+langchain-core==0.3.66
+langchain-groq==0.3.4
+langchain-huggingface==0.3.0
+langchain-qdrant==0.2.0
+langgraph==0.4.9
+langgraph-checkpoint==2.1.0
+langgraph-prebuilt==0.2.2
+qdrant-client==1.12.1
+sentence-transformers==4.1.0
+PyPDF2==3.0.1
+python-dotenv==1.1.1
+SQLAlchemy==2.0.41
