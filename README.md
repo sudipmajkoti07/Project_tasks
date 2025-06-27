@@ -87,5 +87,4 @@ and run the endpoints
 
 - `Recursive` chunking with `MiniLM` is optimal for **balanced speed and accuracy**.
 - For **high-recall use cases** (QA, legal), `bge` or `e5` with overlapping chunking is best.
-- Choose based on **domain** and **latency tolerance**.
 
