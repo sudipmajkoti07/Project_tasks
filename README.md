@@ -13,6 +13,11 @@ This backend system includes three main APIs:
 - **📅 Interview Booking API**  
   Captures user info, saves it to **SQLite**, and sends confirmation emails via **SMTP**.
 
+## 🗂️ Metadata & Booking Details
+
+- All **metadata** and **booking details** are stored in a dedicated **metadata file**.
+- You can view and manage this metadata easily using the **TablePlus** app.
+
 ---
 
 
