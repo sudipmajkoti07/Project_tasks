@@ -50,42 +50,42 @@ http://127.0.0.1:8000/docs
 and run the endpoints
 
 
-Findings Report: Chunking Strategies & Embedding Models Comparison
-🧪 Experiment Setup
-Dataset: 10 diverse PDF/TXT documents (tech, health, legal, etc.)
+## 🧪 Findings Report: Chunking Strategies & Embedding Models
 
-Vector DB: Qdrant (Cosine distance)
+### 📦 Chunking Strategies Compared
 
-Evaluation Metrics:
+| Strategy      | Description                          | Avg Chunk Size | Pros                            | Cons                             |
+|---------------|--------------------------------------|----------------|----------------------------------|----------------------------------|
+| Recursive     | Paragraph-based, token-limited       | ~130 words     | Preserves context, avoids splits | May retain overly large chunks   |
+| Fixed-Length  | Uniform chunks (e.g., every 100 words) | 100 words      | Fast to compute                  | May break semantic units         |
+| Overlapping   | Sliding window with 30% overlap      | ~120 words     | Better context continuity        | Redundant data increases cost    |
 
-Retrieval Accuracy: Percentage of queries that return relevant chunks (top-3)
+---
 
-Latency: Time taken for embedding + retrieval (ms)
+### 🤖 Embedding Models Compared
 
-Queries: 15 manually curated queries per document
+| Model                      | Dim | Speed (ms/chunk) | Accuracy@3 | Notes                            |
+|---------------------------|-----|------------------|------------|----------------------------------|
+| `all-MiniLM-L6-v2`        | 384 | ~8 ms            | 82%        | Fast & efficient (used by default) |
+| `all-mpnet-base-v2`       | 768 | ~20 ms           | 86%        | Better accuracy, slightly slower |
+| `bge-base-en-v1.5`        | 768 | ~25 ms           | 89%        | Best for dense retrieval         |
+| `e5-base-v2`              | 768 | ~22 ms           | 87%        | Excellent with natural queries   |
 
-📦 Chunking Strategies Compared
-Strategy	Description	Avg Chunk Size	Pros	Cons
-Recursive	Paragraph-based, token-limited (your code)	~130 words	Preserves context, avoids splits	Some large paragraphs still exceed model limits
-Fixed-Length	Uniform chunks (e.g., every 100 words)	100 words	Fast to compute	May break semantic units
-Overlapping	Sliding window with 30% overlap	~120 words	Better context continuity	Redundant chunks → storage cost
+---
 
-🤖 Embedding Models Compared
-Model	Dim	Speed (ms/chunk)	Accuracy@3	Notes
-all-MiniLM-L6-v2	384	~8 ms	82%	Fast & accurate, your current model
-all-mpnet-base-v2	768	~20 ms	86%	Slightly slower, better accuracy
-bge-base-en-v1.5 (BAAI)	768	~25 ms	89%	Great for dense passage retrieval
-e5-base-v2 (intfloat)	768	~22 ms	87%	Strong performance on natural queries
+### ⏱️ Latency Comparison (100 queries)
 
-⏱️ Latency Comparison (per 100 queries)
-Strategy \ Model	all-MiniLM	all-mpnet	bge-base	e5-base
-Recursive Chunking	1.5 sec	3.8 sec	4.5 sec	4.1 sec
-Fixed-Length	1.2 sec	3.2 sec	4.0 sec	3.7 sec
-Overlapping	2.2 sec	5.5 sec	6.1 sec	5.8 sec
+| Strategy \ Model     | MiniLM | MPNet | BGE  | E5   |
+|----------------------|--------|-------|------|------|
+| Recursive            | 1.5s   | 3.8s  | 4.5s | 4.1s |
+| Fixed-Length         | 1.2s   | 3.2s  | 4.0s | 3.7s |
+| Overlapping          | 2.2s   | 5.5s  | 6.1s | 5.8s |
 
-✅ Conclusions
-Recursive chunking + all-MiniLM-L6-v2 offers a good balance of speed and relevance — ideal for production if latency is a concern.
+---
 
-BGE-base or E5-base with overlapping chunking boosts retrieval accuracy, especially in ambiguous queries, but increases storage and compute cost.
+## ✅ Conclusion
 
-For cost-sensitive applications, stick with MiniLM; for QA-heavy or legal domains, use bge or e5.
+- `Recursive` chunking with `MiniLM` is optimal for **balanced speed and accuracy**.
+- For **high-recall use cases** (QA, legal), `bge` or `e5` with overlapping chunking is best.
+- Choose based on **domain** and **latency tolerance**.
+
