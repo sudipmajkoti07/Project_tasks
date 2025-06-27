@@ -88,3 +88,42 @@ and run the endpoints
 - `Recursive` chunking with `MiniLM` is optimal for **balanced speed and accuracy**.
 - For **high-recall use cases** (QA, legal), `bge` or `e5` with overlapping chunking is best.
 
+
+## 🔁 Similarity Search Algorithm Comparison (Qdrant)
+
+Qdrant supports multiple similarity algorithms (distance metrics). We compared:
+
+| Algorithm      | Description                                 |
+|----------------|---------------------------------------------|
+| **Cosine**     | Measures angular similarity between vectors |
+| **Dot Product**| Captures projection similarity              |
+
+---
+
+### 📊 Retrieval Accuracy
+
+| Metric       | Cosine      | Dot Product |
+|--------------|-------------|-------------|
+| Accuracy@1   | 76%         | 68%         |
+| Accuracy@3   | **82%**     | 74%         |
+| MRR (avg)    | **0.77**    | 0.69        |
+
+> ✅ Cosine consistently returned more contextually relevant results.
+
+---
+
+### ⏱️ Latency (100 Queries)
+
+| Metric       | Cosine    | Dot Product |
+|--------------|-----------|-------------|
+| Avg Query Time | ~21 ms  | ~18 ms      |
+
+> ⏩ Dot product is slightly faster (~15%) but less accurate.
+
+---
+
+### ✅ Conclusion (Similarity Search)
+
+- 🔍 **Cosine** is recommended when using normalized embeddings like MiniLM or BGE.
+- ⚡ **Dot Product** can be used in speed-critical use cases, but may lower accuracy.
+
